@@ -5,7 +5,7 @@
 **Author:** A S M SAYEM,
 ---
 
-## Motivation
+## Abstract
 
 Real-time gait phase estimation is a building block of lower-limb exoskeleton controllers, which run on battery-powered embedded hardware. This project studies whether an event-driven spiking neural network (SNN) can perform streaming four-phase gait detection (Loading, Mid-Stance, Pre-Swing, Swing) at a much lower *estimated* compute energy than an LSTM. Wearable-style signals (hip, knee and ankle angle, shank angular velocity; 100 Hz) are converted into spikes by a multi-level level-crossing encoder (48 input neurons, 0.92 spikes per time step on average) and processed by a 48-64-64-4 recurrent leaky integrate-and-fire (LIF) network trained with surrogate-gradient backpropagation through time. On four held-out synthetic subjects, the SNN reaches 95.85 ± 0.06 % accuracy (macro-F1 0.948) versus 98.14 ± 0.12 % (0.976) for an LSTM that uses the raw signals, and detects phase transitions with a mean delay of 6.2 ± 1.6 ms versus 3.0 ± 0.2 ms (sampling period 10 ms). Under a first-order analytical energy model based on Horowitz (ISSCC 2014), the SNN needs about 3.5 nJ per time step versus 82 nJ for the LSTM, i.e. **23.5 ± 1.6× lower**, and up to 41× lower with an L1 firing-rate penalty at a cost of roughly 0.4 accuracy points (single seed). The SNN is therefore *less accurate and slightly slower* than the LSTM in this study; its potential advantage is energy, and only on event-driven hardware. All data are synthetic and the energy figures are analytical estimates, so the results are a proof of concept, not evidence of performance on real gait or on real hardware.
 
