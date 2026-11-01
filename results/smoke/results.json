@@ -1,0 +1,116 @@
+{
+  "config": {
+    "epochs": 3,
+    "hidden": 64,
+    "seed": 0,
+    "rate_reg": 0.0,
+    "n_levels": 6,
+    "batch": 64,
+    "lr_snn": 0.002,
+    "lr_lstm": 0.005
+  },
+  "snn": {
+    "params": 11781,
+    "val_acc": 0.8124444484710693,
+    "metrics": {
+      "accuracy": 0.8637135578828191,
+      "macro_f1": 0.8183061285194161,
+      "per_class_f1": {
+        "Loading": 0.7400837644740084,
+        "MidStance": 0.8985200845665962,
+        "PreSwing": 0.7164523574019123,
+        "Swing": 0.9181683076351477
+      },
+      "mean_detection_delay_ms": 14.261603375527425,
+      "p95_detection_delay_ms": 70.0,
+      "missed_transitions_pct": 0.42016806722689076,
+      "confusion_matrix": [
+        [
+          3004,
+          953,
+          0,
+          351
+        ],
+        [
+          185,
+          9350,
+          237,
+          14
+        ],
+        [
+          0,
+          715,
+          2173,
+          590
+        ],
+        [
+          621,
+          8,
+          178,
+          9885
+        ]
+      ]
+    },
+    "avg_input_spikes_per_step": 0.9221023917198181,
+    "n_input_neurons": 48,
+    "hidden_rate1": 0.3384147956967354,
+    "hidden_rate2": 0.27769309282302856,
+    "energy": {
+      "acs": 2902.39799118042,
+      "update_macs": 132,
+      "synaptic_pj": 2612.158192062378,
+      "update_pj": 607.1999999999999,
+      "energy_pj": 3219.358192062378
+    },
+    "cpu_us_per_step": 311.12192699998786
+  },
+  "lstm": {
+    "params": 18180,
+    "val_acc": 0.9508518576622009,
+    "metrics": {
+      "accuracy": 0.9553141805830738,
+      "macro_f1": 0.9437252690690514,
+      "per_class_f1": {
+        "Loading": 0.9107268053283477,
+        "MidStance": 0.9740468765717735,
+        "PreSwing": 0.9249736881671929,
+        "Swing": 0.9651537062088912
+      },
+      "mean_detection_delay_ms": 8.655462184873949,
+      "p95_detection_delay_ms": 30.0,
+      "missed_transitions_pct": 0.0,
+      "confusion_matrix": [
+        [
+          3897,
+          92,
+          0,
+          319
+        ],
+        [
+          95,
+          9683,
+          8,
+          0
+        ],
+        [
+          0,
+          321,
+          3076,
+          81
+        ],
+        [
+          258,
+          0,
+          89,
+          10345
+        ]
+      ]
+    },
+    "energy": {
+      "macs": 17856,
+      "energy_pj": 82137.59999999999
+    },
+    "cpu_us_per_step": 223.36926399998447
+  },
+  "energy_ratio_lstm_over_snn": 25.513656791132394
+}

@@ -1,0 +1,275 @@
+PREFLIGHT: results folders: ['ablation.csv', 'hidden_32', 'levels_4', 'main', 'multiseed.json', 'rate_reg_0.01', 'rate_reg_0.1', 'seed1', 'seed2', 'smoke']
+PREFLIGHT: runs with results.json: ['main', 'rate_reg_0.01', 'rate_reg_0.1', 'levels_4', 'hidden_32', 'seed1', 'seed2']
+PREFLIGHT: main/snn.pt: True | main/lstm.pt: True | ablation.csv: True | multiseed.json: True
+
+======== 1 ENVIRONMENT ========
+date: 2026-11-01T17:15:28
+python 3.13.16 | torch 2.11.0+cu130 | numpy 2.1.3 | pandas 2.2.3
+CPU: Intel(R) Xeon(R) CPU @ 2.00GHz | cores: 2 | torch threads: 1 | CUDA available: True (models run on CPU)
+runs found: ['main', 'rate_reg_0.01', 'rate_reg_0.1', 'levels_4', 'hidden_32', 'seed1', 'seed2']
+
+======== 2 CONFIG & CONSTANTS ========
+default Cfg: {'epochs': 40, 'hidden': 64, 'seed': 0, 'rate_reg': 0.0, 'n_levels': 6, 'batch': 64, 'lr_snn': 0.002, 'lr_lstm': 0.005}
+WARM 10 | SKIP 50 | FS 100 Hz | BOUNDS [0.15, 0.5, 0.62]
+PHASES ['Loading', 'MidStance', 'PreSwing', 'Swing'] | CHANNELS ['hip', 'knee', 'ankle', 'shank_gyro']
+encoder levels L=6: [-1.5, -0.9, -0.3, 0.3, 0.9, 1.5] | L=4: [-1.5, -0.5, 0.5, 1.5]
+energy constants (pJ): MAC 4.6 | AC 0.9
+
+======== 3 DATASET & ENCODER STATS ========
+train: subjects=8 samples=55107 duration=551s samples/subject=[7075, 6819, 6244, 5883, 7793, 7415, 6861, 7017] transitions=1912
+    class balance: {'Loading': 0.154, 'MidStance': 0.348, 'PreSwing': 0.122, 'Swing': 0.376}
+val: subjects=2 samples=15169 duration=152s samples/subject=[7481, 7688] transitions=478
+    class balance: {'Loading': 0.154, 'MidStance': 0.348, 'PreSwing': 0.122, 'Swing': 0.376}
+test: subjects=4 samples=28464 duration=285s samples/subject=[7052, 7722, 6383, 7307] transitions=956
+    class balance: {'Loading': 0.154, 'MidStance': 0.348, 'PreSwing': 0.122, 'Swing': 0.376}
+subject parameters (replicated from make_subject RNG order):
+   train seed   0: stride=1.173s gain=[0.93, 0.86, 0.85] offset=[-1.07, 0.72, 2.61] angNoise=1.50 gyrNoise=14.5
+   train seed   1: stride=1.129s gain=[1.14, 0.89, 1.13] offset=[1.81, 0.89, -1.07] angNoise=1.15 gyrNoise=14.6
+   train seed   2: stride=1.042s gain=[0.94, 1.09, 0.88] offset=[3.6, 2.29, -0.65] angNoise=0.76 gyrNoise=11.3
+   train seed   3: stride=0.980s gain=[0.92, 1.09, 1.02] offset=[-0.91, -0.43, -4.04] angNoise=0.88 gyrNoise=16.8
+   train seed   4: stride=1.280s gain=[1.0, 1.14, 0.87] offset=[-3.28, -0.01, -1.25] angNoise=0.89 gyrNoise=18.5
+   train seed   5: stride=1.232s gain=[1.09, 1.0, 0.94] offset=[2.27, 0.22, -1.11] angNoise=0.75 gyrNoise=8.6
+   train seed   6: stride=1.138s gain=[0.95, 0.96, 0.96] offset=[-2.53, -0.28, 2.03] angNoise=1.06 gyrNoise=16.2
+   train seed   7: stride=1.169s gain=[1.12, 1.08, 0.92] offset=[-0.91, -1.98, 0.12] angNoise=1.60 gyrNoise=17.6
+   val   seed 100: stride=1.242s gain=[1.03, 0.94, 0.86] offset=[-1.92, 2.14, 1.4] angNoise=1.70 gyrNoise=16.3
+   val   seed 101: stride=1.280s gain=[0.96, 1.09, 1.03] offset=[-0.62, 0.73, 3.42] angNoise=1.10 gyrNoise=19.7
+   test  seed 200: stride=1.176s gain=[1.05, 0.86, 0.9] offset=[2.03, 0.76, -0.58] angNoise=1.11 gyrNoise=8.7
+   test  seed 201: stride=1.297s gain=[1.01, 1.0, 1.03] offset=[3.45, 0.56, -0.56] angNoise=1.30 gyrNoise=18.7
+   test  seed 202: stride=1.071s gain=[0.98, 1.09, 1.06] offset=[-2.31, 3.02, 1.76] angNoise=1.62 gyrNoise=10.5
+   test  seed 203: stride=1.223s gain=[0.95, 0.88, 0.92] offset=[-1.88, 4.51, 1.84] angNoise=1.18 gyrNoise=16.6
+test phase dwell time (ms): {'Loading': 'mean 183 [min 150, max 210]', 'MidStance': 'mean 413 [min 350, max 490]', 'PreSwing': 'mean 145 [min 120, max 170]', 'Swing': 'mean 446 [min 370, max 530]'}
+encoder train: n_in=48 avg spikes/step=0.863 max=5 steps>=1 spike=62.1%
+encoder val: n_in=48 avg spikes/step=0.950 max=5 steps>=1 spike=66.7%
+encoder test: n_in=48 avg spikes/step=0.920 max=4 steps>=1 spike=65.4%
+test spikes/step per channel: {'hip': 0.19300000369548798, 'knee': 0.11400000005960464, 'ankle': 0.3930000066757202, 'shank_gyro': 0.2199999988079071}
+training chunks [T,N,F]: (100, 1090, 48) | val chunks: (100, 300, 48)
+
+======== 4 MODELS ========
+SNN total params: 11781
+     out_logit () 1
+     fc1.weight (64, 48) 3072
+     fc1.bias (64,) 64
+     rec1.weight (64, 64) 4096
+     fc2.weight (64, 64) 4096
+     fc2.bias (64,) 64
+     fc3.weight (4, 64) 256
+     fc3.bias (4,) 4
+     lif1.b_logit (64,) 64
+     lif2.b_logit (64,) 64
+LSTM total params: 18180
+     lstm.weight_ih_l0 (256, 4) 1024
+     lstm.weight_hh_l0 (256, 64) 16384
+     lstm.bias_ih_l0 (256,) 256
+     lstm.bias_hh_l0 (256,) 256
+     fc.weight (4, 64) 256
+     fc.bias (4,) 4
+learned beta lif1: mean 0.896 min 0.796 max 0.990
+learned beta lif2: mean 0.895 min 0.761 max 0.990
+learned readout beta: 0.831
+weights fc1: mean|w| 0.423 std 0.528
+weights rec1: mean|w| 0.089 std 0.111
+weights fc2: mean|w| 0.246 std 0.307
+weights fc3: mean|w| 0.095 std 0.118
+
+======== 5 MAIN RUN: RE-EVALUATION & ERROR ANALYSIS ========
+reproduce check (checkpoint re-evaluated vs saved json): SNN 0.9591 vs 0.9591 | LSTM 0.9805 vs 0.9805
+
+--- SNN (main run) ---
+confusion (rows=true, cols=pred; order ['Loading', 'MidStance', 'PreSwing', 'Swing'] )
+[[ 3956   218     0   134]
+ [   79  9558   149     0]
+ [    0   149  3241    88]
+ [  180     0   159 10353]]
+row-normalized:
+[[0.918 0.051 0.    0.031]
+ [0.008 0.977 0.015 0.   ]
+ [0.    0.043 0.932 0.025]
+ [0.017 0.    0.015 0.968]]
+per-class recall: {'Loading': np.float64(0.918), 'MidStance': np.float64(0.977), 'PreSwing': np.float64(0.932), 'Swing': np.float64(0.968)}
+per-class F1    : {'Loading': 0.928, 'MidStance': 0.97, 'PreSwing': 0.922, 'Swing': 0.974}
+top confusions (count, true->pred, % of true row): [(218, 'Loading->MidStance', '5.1%'), (180, 'Swing->Loading', '1.7%'), (159, 'Swing->PreSwing', '1.5%'), (149, 'PreSwing->MidStance', '4.3%')]
+detection delay per transition (into phase):
+   ->Loading    n=236 mean=  5.7ms median=  0.0ms p95= 20.0ms missed=0
+   ->MidStance  n=236 mean=  3.3ms median=  0.0ms p95= 20.0ms missed=0
+   ->PreSwing   n=240 mean=  6.2ms median=  0.0ms p95= 20.0ms missed=0
+   ->Swing      n=240 mean=  6.6ms median=  0.0ms p95= 30.0ms missed=0
+delay histogram (samples=10ms; 0..10, >10): [627, 182, 103, 30, 7, 3, 0, 0, 0, 0, 0, 0]
+errors: total=1156 | within 30ms of true boundary=97.8% | 30-100ms=2.1% | >100ms away=0.2%
+predicted phase switches / true switches = 960/952 = 1.01 (1.0 = no flicker)
+timeline window [300,600) subject0 accuracy: 0.963
+
+--- LSTM (main run) ---
+confusion (rows=true, cols=pred; order ['Loading', 'MidStance', 'PreSwing', 'Swing'] )
+[[ 4170    50     0    88]
+ [   79  9583   124     0]
+ [    0    59  3334    85]
+ [   11     0    54 10627]]
+row-normalized:
+[[0.968 0.012 0.    0.02 ]
+ [0.008 0.979 0.013 0.   ]
+ [0.    0.017 0.959 0.024]
+ [0.001 0.    0.005 0.994]]
+per-class recall: {'Loading': np.float64(0.968), 'MidStance': np.float64(0.979), 'PreSwing': np.float64(0.959), 'Swing': np.float64(0.994)}
+per-class F1    : {'Loading': 0.973, 'MidStance': 0.984, 'PreSwing': 0.954, 'Swing': 0.989}
+top confusions (count, true->pred, % of true row): [(124, 'MidStance->PreSwing', '1.3%'), (88, 'Loading->Swing', '2.0%'), (85, 'PreSwing->Swing', '2.4%'), (79, 'MidStance->Loading', '0.8%')]
+detection delay per transition (into phase):
+   ->Loading    n=236 mean=  3.7ms median=  0.0ms p95= 10.0ms missed=0
+   ->MidStance  n=236 mean=  3.3ms median=  0.0ms p95= 10.0ms missed=0
+   ->PreSwing   n=240 mean=  2.5ms median=  0.0ms p95= 10.0ms missed=0
+   ->Swing      n=240 mean=  2.2ms median=  0.0ms p95= 10.0ms missed=0
+delay histogram (samples=10ms; 0..10, >10): [688, 248, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+errors: total=550 | within 30ms of true boundary=100.0% | 30-100ms=0.0% | >100ms away=0.0%
+predicted phase switches / true switches = 952/952 = 1.00 (1.0 = no flicker)
+timeline window [300,600) subject0 accuracy: 0.983
+
+======== 6 ALL RUNS (columns = runs) ========
+                     main  rate_reg_0.01  rate_reg_0.1   levels_4  hidden_32      seed1      seed2
+epochs             40.000         40.000        40.000     40.000     40.000     40.000     40.000
+seed                0.000          0.000         0.000      0.000      0.000      1.000      2.000
+hidden             64.000         64.000        64.000     64.000     32.000     64.000     64.000
+levels              6.000          6.000         6.000      4.000      6.000      6.000      6.000
+rate_reg            0.000          0.010         0.100      0.000      0.000      0.000      0.000
+S_val               0.943          0.938         0.940      0.945      0.925      0.949      0.950
+S_acc               0.959          0.958         0.955      0.955      0.951      0.958      0.958
+S_F1                0.949          0.948         0.943      0.943      0.939      0.948      0.947
+S_dly_ms            5.473          5.284         6.376      5.945      9.170      8.036      5.053
+S_p95_ms           20.000         20.000        30.000     20.000     30.000     30.000     20.000
+S_miss%             0.000          0.000         0.000      0.000      0.000      0.000      0.000
+L_val               0.974          0.974         0.974      0.976      0.973      0.977      0.979
+L_acc               0.981          0.981         0.981      0.978      0.975      0.983      0.981
+L_F1                0.975          0.975         0.975      0.971      0.968      0.978      0.976
+L_dly_ms            2.941          2.941         2.941      3.067      3.971      2.878      3.204
+L_p95_ms           10.000         10.000        10.000     10.000     20.000     10.000     10.000
+L_miss%             0.000          0.000         0.000      0.000      0.000      0.000      0.000
+in_spk              0.922          0.922         0.922      0.636      0.922      0.922      0.922
+rate1               0.384          0.316         0.176      0.309      0.355      0.400      0.339
+rate2               0.366          0.335         0.206      0.377      0.374      0.421      0.369
+S_pJ             3572.168       3067.196      2004.899   3009.267   1036.990   3709.444   3247.186
+L_pJ            82137.600      82137.600     82137.600  82137.600  22227.200  82137.600  82137.600
+ratio              22.994         26.779        40.968     27.295     21.434     22.143     25.295
+S_params        11781.000      11781.000     11781.000  10757.000   3845.000  11781.000  11781.000
+L_params        18180.000      18180.000     18180.000  18180.000   4996.000  18180.000  18180.000
+S_cpu_us          279.395        293.709       285.647    291.804    289.618    293.216    319.405
+L_cpu_us          223.153        228.412       233.824    224.901    216.446    223.902    231.089
+S_F1_Loading        0.928          0.928         0.918      0.929      0.918      0.936      0.929
+L_F1_Loading        0.973          0.973         0.973      0.971      0.957      0.978      0.972
+S_F1_MidStance      0.970          0.970         0.963      0.964      0.962      0.963      0.969
+L_F1_MidStance      0.984          0.984         0.984      0.983      0.980      0.987      0.983
+S_F1_PreSwing       0.922          0.920         0.919      0.908      0.905      0.914      0.917
+L_F1_PreSwing       0.954          0.954         0.954      0.943      0.952      0.957      0.957
+S_F1_Swing          0.974          0.972         0.974      0.973      0.971      0.977      0.973
+L_F1_Swing          0.989          0.989         0.989      0.986      0.985      0.989      0.990
+
+======== 7 ENERGY BREAKDOWN & SENSITIVITY ========
+SNN synaptic ACs per step (main):
+   fc1 (input->L1)  ACs=    59.0  pJ=    53.1  share=1.8%
+   rec1 (L1->L1)    ACs=  1570.9  pJ=  1413.8  share=47.7%
+   fc2 (L1->L2)     ACs=  1570.9  pJ=  1413.8  share=47.7%
+   fc3 (L2->out)    ACs=    93.7  pJ=    84.3  share=2.8%
+   synaptic total: ACs=3294.4, 2965.0 pJ | membrane-update MACs=132, 607.2 pJ | SNN total=3572.2 pJ
+LSTM: MACs=17856, 82137.6 pJ
+hypothetical DENSE SNN (every neuron spikes every step): ACs=11520, 10975.2 pJ, ratio vs LSTM=7.48
+sensitivity (ops ratio = LSTM MACs / SNN ops, isolates sparsity; energy ratio adds AC<MAC):
+   main           ops ratio=  5.21 | energy ratio= 22.99
+   rate_reg_0.01  ops ratio=  6.23 | energy ratio= 26.78
+   rate_reg_0.1   ops ratio= 10.60 | energy ratio= 40.97
+   levels_4       ops ratio=  6.37 | energy ratio= 27.29
+   hidden_32      ops ratio=  5.54 | energy ratio= 21.43
+   seed1          ops ratio=  4.99 | energy ratio= 22.14
+   seed2          ops ratio=  5.83 | energy ratio= 25.30
+
+======== 8 MULTI-SEED ========
+runs: ['main', 'seed1', 'seed2'] (seeds [0, 1, 2] )
+SNN acc        per-seed [0.9591, 0.9583, 0.958] | mean 0.9585 | std(ddof0) 0.0005 | std(ddof1) 0.0006
+LSTM acc       per-seed [0.9805, 0.9827, 0.9809] | mean 0.9814 | std(ddof0) 0.0010 | std(ddof1) 0.0012
+SNN macroF1    per-seed [0.9485, 0.9476, 0.947] | mean 0.9477 | std(ddof0) 0.0006 | std(ddof1) 0.0008
+LSTM macroF1   per-seed [0.9751, 0.9778, 0.9757] | mean 0.9762 | std(ddof0) 0.0012 | std(ddof1) 0.0014
+SNN delay ms   per-seed [5.4727, 8.0357, 5.0525] | mean 6.1870 | std(ddof0) 1.3185 | std(ddof1) 1.6148
+LSTM delay ms  per-seed [2.9412, 2.8782, 3.2038] | mean 3.0077 | std(ddof0) 0.1410 | std(ddof1) 0.1727
+SNN p95 ms     per-seed [20.0, 30.0, 20.0] | mean 23.3333 | std(ddof0) 4.7140 | std(ddof1) 5.7735
+LSTM p95 ms    per-seed [10.0, 10.0, 10.0] | mean 10.0000 | std(ddof0) 0.0000 | std(ddof1) 0.0000
+SNN missed %   per-seed [0.0, 0.0, 0.0] | mean 0.0000 | std(ddof0) 0.0000 | std(ddof1) 0.0000
+LSTM missed %  per-seed [0.0, 0.0, 0.0] | mean 0.0000 | std(ddof0) 0.0000 | std(ddof1) 0.0000
+rate L1        per-seed [0.3835, 0.4004, 0.3393] | mean 0.3744 | std(ddof0) 0.0257 | std(ddof1) 0.0315
+rate L2        per-seed [0.3658, 0.4214, 0.3687] | mean 0.3853 | std(ddof0) 0.0255 | std(ddof1) 0.0313
+SNN pJ         per-seed [3572.1676, 3709.4444, 3247.1859] | mean 3509.5993 | std(ddof0) 193.8329 | std(ddof1) 237.3959
+energy ratio   per-seed [22.9938, 22.1428, 25.295] | mean 23.4772 | std(ddof0) 1.3315 | std(ddof1) 1.6307
+paired accuracy gap LSTM-SNN per seed: [0.0214, 0.0244, 0.0229]
+multiseed.json: {
+  "SNN acc": "0.958 \u00b1 0.000",
+  "LSTM acc": "0.981 \u00b1 0.001",
+  "SNN delay ms": "6.187 \u00b1 1.318",
+  "LSTM delay ms": "3.008 \u00b1 0.141",
+  "energy ratio": "23.477 \u00b1 1.332"
+}
+
+======== 9 ABLATION CSV ========
+      setting  SNN acc  SNN F1  SNN delay ms  LSTM acc  LSTM delay ms  in spikes/step  rate L1  rate L2   SNN pJ  LSTM pJ  ratio
+     baseline    0.959   0.948         5.473     0.980          2.941           0.922    0.384    0.366 3572.168  82137.6 22.994
+rate_reg=0.01    0.958   0.948         5.284     0.980          2.941           0.922    0.316    0.335 3067.196  82137.6 26.779
+ rate_reg=0.1    0.955   0.944         6.376     0.980          2.941           0.922    0.176    0.206 2004.899  82137.6 40.968
+     levels=4    0.955   0.944         5.945     0.978          3.067           0.636    0.309    0.377 3009.267  82137.6 27.295
+    hidden=32    0.952   0.939         9.170     0.975          3.971           0.922    0.355    0.374 1036.990  22227.2 21.434
+
+======== 10 FIGURES ========
+  OK      results/main/fig_timeline.png  shape=(1350, 1650, 4)  196 KB
+  OK      results/main/fig_summary.png  shape=(1200, 1800, 4)  123 KB
+  OK      figures/fig_data_example.png  shape=(900, 1650, 4)  225 KB
+  OK      figures/fig_encoding_example.png  shape=(900, 1650, 4)  104 KB
+
+======== 11 SOURCE FILES & DRIVE TREE ========
+  src/encoding.py          43 lines  md5 5eef835d
+  src/energy.py            21 lines  md5 236dbbb0
+  src/experiment.py       145 lines  md5 f388af73
+  src/gait_data.py         52 lines  md5 02e61e00
+  src/models.py            82 lines  md5 6d700e97
+  src/run_experiment.py    20 lines  md5 1dc69e52
+  src/settings.py          18 lines  md5 1b8115f3
+  src/train_eval.py       135 lines  md5 653f527b
+   README.md
+   requirements.txt
+   src/encoding.py
+   src/energy.py
+   src/experiment.py
+   src/gait_data.py
+   src/models.py
+   src/run_experiment.py
+   src/settings.py
+   src/train_eval.py
+   results/ablation.csv
+   results/multiseed.json
+   results/smoke/fig_summary.png
+   results/smoke/fig_timeline.png
+   results/smoke/lstm.pt
+   results/smoke/results.json
+   results/smoke/snn.pt
+   results/main/fig_summary.png
+   results/main/fig_timeline.png
+   results/main/lstm.pt
+   results/main/results.json
+   results/main/snn.pt
+   results/rate_reg_0.01/lstm.pt
+   results/rate_reg_0.01/results.json
+   results/rate_reg_0.01/snn.pt
+   results/rate_reg_0.1/lstm.pt
+   results/rate_reg_0.1/results.json
+   results/rate_reg_0.1/snn.pt
+   results/levels_4/lstm.pt
+   results/levels_4/results.json
+   results/levels_4/snn.pt
+   results/hidden_32/lstm.pt
+   results/hidden_32/results.json
+   results/hidden_32/snn.pt
+   results/seed1/lstm.pt
+   results/seed1/results.json
+   results/seed1/snn.pt
+   results/seed2/lstm.pt
+   results/seed2/results.json
+   results/seed2/snn.pt
+   figures/fig_data_example.png
+   figures/fig_encoding_example.png
+
+report generated in 8s
+
+######## FAILED SECTIONS SUMMARY ########
+none ✅

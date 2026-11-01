@@ -1,0 +1,7 @@
+{
+  "SNN acc": "0.958 \u00b1 0.000",
+  "LSTM acc": "0.981 \u00b1 0.001",
+  "SNN delay ms": "6.187 \u00b1 1.318",
+  "LSTM delay ms": "3.008 \u00b1 0.141",
+  "energy ratio": "23.477 \u00b1 1.332"
+}
